@@ -1,4 +1,4 @@
-# Method 2 — multi-agent equity research
+# Multi-Agent-Equity-Research
 
 A repeatable equity research process run by ten AI agents in eight stages, ending
 in a typed BUY / HOLD / SELL record, three built artefacts, and a row in a log
