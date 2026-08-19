@@ -1,0 +1,5 @@
+# Python 3.11 or newer. tomllib is stdlib from 3.11; on 3.10 and older the build
+# scripts fall back to environment variables and say so.
+reportlab>=4.0        # the report PDF
+openpyxl>=3.1         # the model workbook
+python-docx>=1.1      # the workpapers document

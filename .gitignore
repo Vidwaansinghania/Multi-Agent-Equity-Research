@@ -1,0 +1,16 @@
+# Your configuration, including your name and contact address
+config.toml
+
+# Real research output. Remove this line if you want runs in the repository.
+research/
+
+# Cached SEC responses can be large and are reproducible
+**/companyfacts.json
+
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Office lock files
+~$*

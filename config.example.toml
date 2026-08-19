@@ -1,0 +1,79 @@
+# Copy to config.toml and edit. config.toml is gitignored.
+#
+# Nothing in this file is a secret. API keys belong in your MCP client
+# configuration or in environment variables, never here.
+#
+# Every value can be overridden by an environment variable; the names are in
+# build/m2config.py.
+
+[analyst]
+# Printed on the report cover and in the analyst certification. Leave blank and
+# the PDF reads [ANALYST NAME] and the build says so.
+name = ""
+# SEC EDGAR requires a User-Agent naming a person and a contact address, or it
+# returns 403 to every request.
+email = ""
+
+[paths]
+# The interpreter the build scripts and the EDGAR fetches run under.
+python = "python"
+# Where run folders go: <research_root>/<Company>/runs/<YYYY-MM-DD>/
+research_root = "research"
+# The portfolio holdings file the risk gate and the judge read in preflight.
+# Leave blank if you hold no positions; the ownership block then says so.
+holdings = ""
+# A prior single-analyst node for the same ticker, if you keep one. No agent may
+# read this before the judge has ruled; the comparison happens in stage 7.
+prior_coverage = ""
+# The append-only log of calls, scored twelve months out.
+calls_log = "research/calls-log.md"
+
+[fonts]
+# Reportlab reads TrueType glyf outlines only. An OpenType file with CFF
+# outlines cannot be parsed and the build falls back to Helvetica and says so.
+# Leave these blank to run on Helvetica deliberately.
+dir = ""
+display_regular = ""
+display_bold = ""
+
+[market_data]
+# The market analyst is the only agent allowed to spend these. Identifiers for
+# whichever MCP connectors serve your market data, in the order they should be
+# used: fill the first to its own cap before starting the second.
+connectors = [
+  # "mcp__<connector-id-1>__",
+  # "mcp__<connector-id-2>__",
+]
+# Total calls the market analyst may make across all connectors in one day. A
+# ceiling, not a target. A run that answers its questions in six has done well.
+daily_call_cap = 75
+# Free sources that cost no quota, reached before any connector call.
+free_sources = [
+  "stockanalysis.com",
+  "fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
+]
+
+[currency]
+# The account's funding currency. Where a security trades in another currency the
+# risk gate charges the round trip against the expected return.
+home = "CAD"
+# One-way conversion cost against mid, in percent. Check your broker's actual
+# fills rather than its published rate; the two often differ.
+conversion_spread_pct = 1.91
+
+[scoring]
+# Calls are scored against alpha, not raw return.
+benchmark = "SPY"
+# Benchmark for securities listed in the home currency.
+benchmark_home = "XIC.TO"
+# Months from call date to review date.
+review_horizon_months = 12
+
+[models]
+# Stage 1 is retrieval and summary over filings; the rest is judgment.
+analysts = "claude-sonnet-5"
+valuation = "claude-opus-5"
+debate = "claude-opus-5"
+judge = "claude-opus-5"
+risk = "claude-opus-5"
+report = "claude-opus-5"

@@ -1,0 +1,10 @@
+# Normalise text to LF in the repository; check out with native endings.
+* text=auto
+
+# Built artefacts are binary. Line-ending conversion corrupts them.
+*.pdf  binary
+*.xlsx binary
+*.docx binary
+*.otf  binary
+*.ttf  binary
+*.png  binary
