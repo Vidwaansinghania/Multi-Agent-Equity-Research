@@ -61,6 +61,38 @@ run a multi agent equity research report on MSFT
 The skill in [skills/method-2/SKILL.md](skills/method-2/SKILL.md) carries the
 trigger. Copy that folder into `.claude/skills/` to have Claude Code pick it up.
 
+## Tuned for token cost
+
+Ten agents reading a decade of filings is expensive, and the expense is not where
+it looks. Two full runs were audited line by line. Both found the same thing: what
+an agent carries on every turn costs far more than what it reaches out for once.
+
+On the more recent audit, re-read instructions and role briefs came to 55% of the
+whole bill and reading files and running scripts to 23%, while every web search,
+every page fetch and every market-data call together came to under half a percent.
+Cost inside an agent scales with its context multiplied by its turn count, so the
+lever is turns, not sources.
+
+Three things follow, and all three are in the process rather than in advice:
+
+- **Shared work happens once, in preflight.** The CIK, the filing index and the
+  company facts file are resolved before any agent starts, and `build/m2facts.py`
+  turns that file into the run's ten-year statement series. The fundamentals agent
+  checks and extends those rows instead of rebuilding them, which on the audited
+  run was a tenth of the entire budget spent across 126 turns picking through one
+  JSON file.
+- **Agents append as they go.** Every brief tells its agent to write each section
+  as it finishes rather than composing the whole file and saving at the end. When
+  three stages of the audited run hit a rate limit, the two holding their work in
+  memory were re-run from zero and the one that had been appending resumed.
+- **Beta is measured in preflight, not argued in the debate.** One regression up
+  front is cheaper than four agents and a judge reasoning about a number none of
+  them measured, and it produces a better call as well as a shorter run.
+
+None of this trades away coverage. The four analysts still work independently, the
+debate still runs both sides on the same model, and the judge still reads the
+evidence rather than the transcript.
+
 ## The eight stages
 
 | Stage | Agents | Model | Parallel | Writes |

@@ -68,12 +68,17 @@ read from those two files and keep no copy.
 `build/build_report.py` reaches every future run instead of one folder.
 
 **Front-loaded discovery.** Preflight resolves the CIK, the filing index and the
-XBRL company facts file once, before any agent is spawned. A tool call inside an
-agent's conversation re-sends everything before it, so an agent left to rediscover
-a URL pays for that search again on every later turn. A token audit of the first
-full ten-agent run found this the largest single driver of cost: two analysts made
-sixty and ninety tool calls, most of them finding URLs rather than reading
-filings, and evidence gathering alone ran to more than a third of the run.
+XBRL company facts file once, before any agent is spawned, turns that file into
+the run's statement series, and measures beta across several windows. A tool call
+inside an agent's conversation re-sends everything before it, so an agent left to
+rediscover a URL, or to rebuild a series the data already determines, pays for
+that work again on every later turn. A token audit of the first full ten-agent run
+found this the largest single driver of cost: two analysts made sixty and ninety
+tool calls, most of them finding URLs rather than reading filings, and evidence
+gathering alone ran to more than a third of the run. A second audit, of a later
+run, put re-read instructions and briefs at 55% of the total and everything
+reaching outside the machine at under half a percent. Shared work happens once,
+and whatever an agent would otherwise carry on every turn is what to attack.
 
 ## How this differs from TradingAgents
 

@@ -81,6 +81,21 @@ run if it surfaces in stage 3 instead.
 - [ ] Fetch `data.sec.gov/api/xbrl/companyfacts/CIK##########.json` once and save
       it into the run folder as `companyfacts.json`. The fundamentals agent reads
       the file rather than calling the endpoint.
+- [ ] Seed `statements.csv` from that file with `build/m2facts.py`, which pulls the
+      primary income statement, balance sheet and cash flow lines for the last ten
+      fiscal years into the format the workbook builder reads. Read what it prints:
+      the fiscal year end it detected, the span it covered, and every concept it
+      could not tag. Those untagged lines go to the fundamentals agent as a list,
+      and that agent checks the extracted rows rather than rebuilding them.
+      Extracting tagged figures is mechanical and belongs here rather than across
+      dozens of agent turns.
+- [ ] Resolve beta, and record the whole series in `run.md` rather than a single
+      figure. Regress the weekly return against the benchmark over one, two, three
+      and five years, report the standard error on each, and measure the peer
+      cohort the same way. One price history for the name and one per peer covers
+      it. This is not optional detail: on a low-beta name a single five-year point
+      estimate is the difference between two ratings, and a run that argues about
+      beta without measuring it twice cannot settle the argument.
 - [ ] Confirm the market-data headroom. Record the connector table in `run.md` and
       pass it to the market agent verbatim, because the tools carry an identifier
       and no name. If an earlier run today already spent some of the cap, say what
@@ -100,14 +115,23 @@ from preflight, and its own tool budget. None sees another's output.
 
 | Agent | Owns | Tools | Hard limits |
 |---|---|---|---|
-| Fundamentals | Ten fiscal years of statements, common-size, ratio history, quality of earnings, incremental returns on capital, segments | `companyfacts.json` from preflight; Python against EDGAR for the 10-K and 8-Ks at the resolved URLs | No market-data connectors. Cite by filing and section. Writes `statements.csv` as well as its memo |
+| Fundamentals | Ten fiscal years of statements, common-size, ratio history, quality of earnings, incremental returns on capital, segments | `statements.csv`, already seeded by preflight; `companyfacts.json` for anything untagged; Python against EDGAR for the 10-K and 8-Ks at the resolved URLs | No market-data connectors. Cite by filing and section. Checks and extends `statements.csv` rather than building it |
 | Market | Price history, multiples against their own history, consensus, fifty-two-week range, street targets | The configured connectors, in order; stockanalysis.com; FRED CSV | The only agent allowed on the connectors. The cap is a ceiling. Sequential, at least 1.1 seconds apart, a failed call still counting |
 | News | Filings-adjacent events, 8-K exhibits, guidance changes, litigation, dated catalyst calendar, ESG | The resolved 10-K and 8-K URLs; Python against EDGAR beyond those; web fetch and search | No social-media sentiment. No price moves; the market agent owns price |
 | Industry | Competitive position, Porter's five forces, unit economics against named peers, structural change | Web fetch and search, EDGAR for peer filings | Name peers explicitly. No vague claims about "the sector" |
 
-Ten years of statements comes out of `companyfacts.json`. Segment detail and
-guidance are not in it and come from the 10-K and the 8-K exhibits, whose URLs
-preflight already resolved.
+Ten years of statements is already in `statements.csv` before the agent starts,
+extracted from `companyfacts.json` in preflight. The fundamentals agent checks
+those rows against the filings, fixes what is wrong, fills the lines the
+extractor could not tag, and appends the segment, ratio and common-size blocks,
+which is the part no extractor can do. The known failure is restatement: the
+extractor takes the latest accession for each year, so the oldest year of a
+series restated after a divestiture can disagree with the figure as first
+reported.
+
+Segment detail and guidance are tagged in neither the extract nor the company
+facts file, and come from the 10-K and the 8-K exhibits, whose URLs preflight
+already resolved.
 
 Sentiment is deliberately absent. Treating social-media sentiment as a first-class
 input is defensible for a swing trade and noise on a probability-weighted
@@ -241,10 +265,21 @@ Orchestrator only, no agents.
 A full run is ten agent calls and the analyst stage is the long one.
 
 Ten years of statements comes from the XBRL company facts endpoint in one request
-and costs no market-data quota. Preflight resolving the CIK, the filing index and
-the company facts file once is the single largest saving available: a tool call
-inside an agent's conversation re-sends everything before it, so an agent left to
-rediscover a URL pays for that search again on every later turn.
+and costs no market-data quota, and preflight turns that file into `statements.csv`
+before any agent is spawned. Preflight resolving the CIK, the filing index, the
+company facts file and the statement series once is the single largest saving
+available: a tool call inside an agent's conversation re-sends everything before
+it, so an agent left to rediscover a URL, or to rebuild a series the data already
+determines, pays for that work again on every later turn.
+
+A token audit of a full ten-agent run put numbers on it. Re-read instructions and
+role briefs were 55% of the run's cost, reading files and running scripts 23%, and
+everything reaching outside the machine — every web search, every fetch, every
+market-data call — under half a percent. The fundamentals agent alone ran a tenth
+of the whole budget across 126 turns, 58 of them file operations on a
+multi-megabyte JSON file. What an agent carries on every turn costs far more than
+what it reaches for once, which is why preflight keeps absorbing work and why
+agents write their files incrementally rather than composing and saving once.
 
 Market-data calls are a daily ceiling shared across every run, not an allowance to
 spend. A run that answers its market questions in eight calls has done it right.

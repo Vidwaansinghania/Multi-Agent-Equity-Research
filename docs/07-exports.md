@@ -26,6 +26,7 @@ output path.
 
 | File | What it does |
 |---|---|
+| `m2facts.py` | Preflight, not export. Turns the cached `companyfacts.json` into the primary rows of `statements.csv` so the fundamentals agent checks a series rather than building one. Prints the fiscal year end it detected, the span, and every concept it could not tag |
 | `m2md.py` | Markdown to typed blocks, shared by both document builders. Also holds `drop_plumbing`, which removes sentences naming local plumbing and records every one it removed |
 | `m2brand.py` | Brand palette with the contrast checks already applied: which colour may carry text, which may carry a chart mark, which is for large fills only |
 | `m2config.py` | Configuration from `config.toml` and the environment |

@@ -66,6 +66,22 @@ Two outputs of the PDF build exist to be read rather than skipped: the list of
 sentences the plumbing strip removed, and the contrast report behind every colour
 decision. Narrow the pattern in `m2md.py` if the strip took a paragraph worth keeping.
 
+## Keeping the run cheap
+
+Cost inside an agent is roughly its context multiplied by its turn count, so the
+lever is turns rather than sources. Two audited runs put re-read instructions and
+briefs above half the total bill and everything reaching outside the machine below
+half a percent.
+
+- Shared work belongs in preflight, not in an agent. The filing index, the company
+  facts file and the statement series are all resolved once, before stage 1.
+- Agents append each section as they finish it. A stage killed mid-way then costs
+  the remainder rather than the whole file.
+- Before adding an instruction to a role prompt, remember it is re-read on every
+  turn that agent takes. Length in a brief is charged dozens of times over.
+- Reaching for a source is cheap. Rediscovering something preflight already found
+  is not.
+
 ## Things that will waste a run
 
 Fetching a second price. Every agent uses the one price resolved in preflight, or the

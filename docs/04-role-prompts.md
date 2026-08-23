@@ -91,6 +91,12 @@ Rules that bind you:
   preference.
 - Write your output to the file named at the end of this prompt. Return a
   three-sentence summary of what you found; the file is the real deliverable.
+- Write that file incrementally. Append each section as you finish it rather
+  than composing the whole thing and writing once at the end. A stage that is
+  interrupted then costs only the sections still to come, and the run resumes
+  where it stopped instead of starting over. On an audited run three stages hit
+  a rate limit: the two holding their work in memory were re-run from zero, and
+  the one that had been appending resumed and lost nothing.
 - Say plainly when you could not find something. "I could not locate segment
   operating margin before FY2019" is useful. A plausible guess presented as a
   finding is worse than a gap, because the judge cannot tell them apart.
@@ -105,10 +111,13 @@ reading the filings closely, so anything you miss is missing from the whole run.
 
 Cover:
 - Ten fiscal years of income statement, balance sheet and cash flow. Ten, not
-  three. Preflight has already fetched the company facts file to the path given
-  in the preamble above — read it directly rather than calling the endpoint
-  yourself. Where the company has fewer than ten years as a public filer, take
-  what exists and say so; do not pad the series.
+  three. Preflight has already extracted the primary lines of all three
+  statements from the company facts file and written them to statements.csv in
+  the run folder, so the series exists before you start. Your job on those rows
+  is to check them, not to rebuild them: spot-check a sample against the 10-K,
+  fix what is wrong, and fill the lines the extractor reported as untagged.
+  Where the company has fewer than ten years as a public filer, take what exists
+  and say so; do not pad the series.
 - Common-size versions of the income statement and balance sheet across the same
   span, every line as a percentage of revenue or of total assets.
 - A ratio history over the same ten years: margins at each level, returns on
@@ -141,10 +150,18 @@ exhibit you need isn't among the four 8-Ks resolved in preflight, that's the
 one case where indexing further back at
 data.sec.gov/submissions/CIK##########.json is worth the calls.
 
-Write two files.
+Write two files, one of which already exists in draft.
 
-statements.csv — the ten-year series, machine-readable, read directly by the
-workbook builder. Exact format, comma-separated, one header row:
+statements.csv — preflight has already written the primary income statement,
+balance sheet and cash flow rows into this file, machine-extracted from the
+tagged XBRL, and printed a list of the concepts it could not find. You extend it
+rather than replace it: correct any row that disagrees with the filing, add the
+lines the extractor could not tag, and append the segment rows, the ratio history
+and the common-size blocks, none of which a machine can produce. Restated figures
+are the known failure: the extractor takes the latest accession, so the oldest
+year of a series restated after a divestiture can disagree with the figure as
+originally reported, and that year is worth checking first. The format is fixed
+because the workbook builder reads it directly. Comma-separated, one header row:
 
   statement,line_item,unit,FY2016,FY2017,...,FY2025
 
@@ -314,8 +331,13 @@ Produce:
     value. Discount at WACC on the mid-year convention. Where the run date
     falls inside a fiscal year, add a stub for the remainder of that year and
     say what fraction of the full year it carries and why.
-  - WACC from CAPM. Risk-free rate from the market file's FRED pull, equity
-    risk premium and beta sourced there too. State the cost of debt and the
+  - WACC from CAPM. Risk-free rate from the market file's FRED pull and the
+    equity risk premium sourced there too. Beta comes from the multi-window
+    regression preflight ran, recorded in run.md: the raw figure at several
+    windows, the standard error on each, and the peer cohort measured the same
+    way. Use it, name the window you took, and defend any adjustment against the
+    dispersion the regression actually shows rather than against a textbook
+    shrinkage target. State the cost of debt and the
     capital weights, at market value rather than at book.
   - Terminal value by perpetuity growth. Terminal growth no higher than
     long-run nominal GDP, and terminal reinvestment set explicitly at
