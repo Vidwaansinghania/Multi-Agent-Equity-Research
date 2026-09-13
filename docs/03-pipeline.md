@@ -251,6 +251,9 @@ Orchestrator only, no agents.
 - [ ] Write `comparison.md`: this rating and target against any prior coverage of
       the same ticker, and where the two processes diverged. This is the first point
       in the run where prior coverage may be opened.
+- [ ] Copy the three artefacts from the run's `exports/` into
+      `<research_root>/reports/`, keeping the filenames the builder wrote. The
+      run folder stays the record; the shelf is a copy.
 - [ ] Update the company index, with snapshot fields copied from `decision.md`
       front-matter, a row in the run table, and the export links.
 - [ ] Add the row to the calls log with status `pending` and the review date twelve

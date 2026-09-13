@@ -39,6 +39,11 @@ another task.
 
 **A closed run is never edited.** A corrected view is a new run folder.
 
+**The reports shelf is a copy.** Every closed run's three artefacts are copied into
+`<research_root>/reports/` under the builder's filenames. Where a copy disagrees with
+the run folder, the run folder is right. See
+[docs/06-run-anatomy.md](docs/06-run-anatomy.md).
+
 ## Working on the export scripts
 
 They live in `build/` and are shared: every run calls the same ones, so a fix reaches

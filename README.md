@@ -134,7 +134,8 @@ config.toml     yours, gitignored; copy config.example.toml
 
 Run folders live under `research/<Company>/runs/<YYYY-MM-DD>/` by default, which
 is gitignored so real research stays out of the repository unless you choose
-otherwise.
+otherwise. Each closed run's three artefacts are also copied to `research/reports/`,
+so finished reports sit in one place.
 
 ## Three ratings, and what that costs
 

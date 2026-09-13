@@ -6,28 +6,30 @@ edited after it closes.
 ## The tree
 
 ```
-research/<Company>/
-├── _index.md                          # snapshot, run history, links to newest exports
-└── runs/<YYYY-MM-DD>/
-    ├── run.md                         # stage 0 — preflight
-    ├── companyfacts.json              # stage 0 — cached XBRL company facts
-    ├── analyst-fundamentals.md        # stage 1
-    ├── analyst-market.md
-    ├── analyst-news.md
-    ├── analyst-industry.md
-    ├── statements.csv                 # stage 1 — ten fiscal years, machine-readable
-    ├── valuation.md                   # stage 2
-    ├── model.py                       # stage 2 — the typed numbers
-    ├── bull.md                        # stage 3
-    ├── bear.md                        # stage 3
-    ├── decision.md                    # stage 4 — the typed record
-    ├── risk.md                        # stage 5
-    ├── report.md                      # stage 6 — the institutional report
-    ├── comparison.md                  # stage 7 — against prior coverage
-    └── exports/
-        ├── <TICKER>_Method2_Report_<YYYY-MM-DD>.pdf
-        ├── <TICKER>_Method2_Workpapers_<YYYY-MM-DD>.docx
-        └── <TICKER>_Method2_Model_<YYYY-MM-DD>.xlsx
+research/
+├── reports/                           # copies of every closed run's three exports
+└── <Company>/
+    ├── _index.md                      # snapshot, run history, links to newest exports
+    └── runs/<YYYY-MM-DD>/
+        ├── run.md                     # stage 0 — preflight
+        ├── companyfacts.json          # stage 0 — cached XBRL company facts
+        ├── analyst-fundamentals.md    # stage 1
+        ├── analyst-market.md
+        ├── analyst-news.md
+        ├── analyst-industry.md
+        ├── statements.csv             # stage 1 — ten fiscal years, machine-readable
+        ├── valuation.md               # stage 2
+        ├── model.py                   # stage 2 — the typed numbers
+        ├── bull.md                    # stage 3
+        ├── bear.md                    # stage 3
+        ├── decision.md                # stage 4 — the typed record
+        ├── risk.md                    # stage 5
+        ├── report.md                  # stage 6 — the institutional report
+        ├── comparison.md              # stage 7 — against prior coverage
+        └── exports/
+            ├── <TICKER>_Method2_Report_<YYYY-MM-DD>.pdf
+            ├── <TICKER>_Method2_Workpapers_<YYYY-MM-DD>.docx
+            └── <TICKER>_Method2_Model_<YYYY-MM-DD>.xlsx
 ```
 
 `research/` is the default and comes from `paths.research_root`. It is gitignored,
@@ -62,6 +64,19 @@ A folder missing `decision.md` is an abandoned run. Leave it in place with a lin
 `run.md` saying where it stopped, because a stage that fails repeatedly is a finding
 about the pipeline.
 
+## The reports shelf
+
+`<research_root>/reports/` holds a copy of all three artefacts from every closed run,
+so finished work can be found without opening run folders. The builders are unchanged
+and still write to the run's `exports/`; the shelf sits downstream of them. Copy the
+three files across when the run closes and keep the filenames the builder wrote.
+Ticker and run date already make them unique, and a renamed copy is a figure retyped.
+
+The run folder stays the record. Where the shelf disagrees with it, the run folder is
+right and the copy is stale, and nothing on the shelf is edited in place, for the same
+reason a closed run is never edited. Rough work does not go on the shelf, because the
+workpapers DOCX already carries every stage file in order.
+
 ## The company index
 
 One page per company, carrying the snapshot fields in its own front-matter:
@@ -78,4 +93,4 @@ never computed independently.
 Keep everything. Nothing in a closed run gets deleted or revised, and a corrected
 view is a new run rather than an edit to an old one. That includes exports: a
 superseded PDF stays where it is, because the calls log points at the version that
-was live when the call was struck.
+was live when the call was struck. The same holds for its copy on the reports shelf.

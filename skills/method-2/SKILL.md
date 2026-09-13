@@ -109,8 +109,10 @@ both exist to be read, not skipped.
   required rather than optional.
 - **Read the holdings file in preflight** and pass the position to the judge and the
   risk gate. The ownership block states the position as fact.
-- **A run isn't done until** the three artefacts are built and open, the company index
-  is updated, and the row is in the calls log with a review date twelve months out.
+- **A run isn't done until** the three artefacts are built and open, copied from the
+  run's `exports/` into `<research_root>/reports/` under the filenames the builder
+  wrote, the company index is updated, and the row is in the calls log with a review
+  date twelve months out.
 
 ## Reporting back
 
