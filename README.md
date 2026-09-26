@@ -311,7 +311,7 @@ None of it trades away coverage. The analysts still work independently, the deba
 <details>
 <summary>Changing the models</summary>
 
-`[models]` in `config.toml` sets the model per stage. The analysts default to Sonnet because stage 1 is mostly retrieval and summary over filings, and everything from valuation onward runs on Opus. If you change the debate model, change it for both sides. Every decision record lists the models that produced it, because a call scored a year later is only interpretable if you know what made it.
+`[models]` in `config.toml` sets the model per stage. The analysts default to Sonnet because stage 1 is mostly retrieval and summary over filings, and everything from valuation onward runs on Opus 5.5 (`claude-opus-5-5`). If you change the debate model, change it for both sides. Every decision record lists the models that produced it, because a call scored a year later is only interpretable if you know what made it.
 
 </details>
 

@@ -30,7 +30,7 @@ A scheduled first pass on a name with no prior coverage. No position is held.
 | Stage | Model |
 |---|---|
 | Analysts (1) | claude-sonnet-5 |
-| Valuation, debate, judgment, risk, report (2–6) | claude-opus-5 |
+| Valuation, debate, judgment, risk, report (2–6) | claude-opus-5-5 |
 
 ## Filings resolved in preflight
 

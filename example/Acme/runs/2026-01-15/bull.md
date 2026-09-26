@@ -1,6 +1,6 @@
 ---
 agent: bull
-model: claude-opus-5
+model: claude-opus-5-5
 stage: 3
 ---
 

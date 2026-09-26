@@ -1,6 +1,6 @@
 ---
 agent: report
-model: claude-opus-5
+model: claude-opus-5-5
 stage: 6
 ticker: ACME
 company: Acme Materials Corporation

@@ -25,8 +25,8 @@ scenarios:
 position: null
 models:
   analysts: claude-sonnet-5
-  decision: claude-opus-5
-  report: claude-opus-5
+  decision: claude-opus-5-5
+  report: claude-opus-5-5
 alpha_vantage_calls: 6
 ---
 

@@ -72,8 +72,8 @@ review_horizon_months = 12
 [models]
 # Stage 1 is retrieval and summary over filings; the rest is judgment.
 analysts = "claude-sonnet-5"
-valuation = "claude-opus-5"
-debate = "claude-opus-5"
-judge = "claude-opus-5"
-risk = "claude-opus-5"
-report = "claude-opus-5"
+valuation = "claude-opus-5-5"
+debate = "claude-opus-5-5"
+judge = "claude-opus-5-5"
+risk = "claude-opus-5-5"
+report = "claude-opus-5-5"

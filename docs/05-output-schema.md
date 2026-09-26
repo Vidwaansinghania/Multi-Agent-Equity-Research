@@ -40,8 +40,8 @@ scenarios:
 position: null                       # from the holdings snapshot, or null
 models:
   analysts: claude-sonnet-5
-  decision: claude-opus-5
-  report: claude-opus-5
+  decision: claude-opus-5-5
+  report: claude-opus-5-5
 alpha_vantage_calls: 6              # total market-data calls, against the cap
 ---
 ```
