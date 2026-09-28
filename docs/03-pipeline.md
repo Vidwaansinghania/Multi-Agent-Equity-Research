@@ -242,8 +242,10 @@ Orchestrator only, no agents.
 - [ ] Resolve the company's brand palette and record the hex values and their
       source in `run.md`. Sourcing order: published CSS design tokens, then a brand
       book or investor-relations template, then the logo sampled for dominant hues.
-- [ ] Build the three artefacts with the scripts in `build/`. Verify each one opens
-      and that the rating and target in the PDF match `decision.md`.
+- [ ] Build the three artefacts with the scripts in `build/`. Verify each one loads
+      by reading it in Python (pypdf, openpyxl, python-docx) rather than launching
+      it, and that the rating and target in the PDF match `decision.md`. Report the
+      paths; open a file only when the user asks.
 - [ ] Check that no line naming a script, a `.py` file or a rebuild instruction
       reached the PDF or the DOCX. The exporter strips by sentence rather than by
       paragraph and prints every sentence it removed; read all of them, because an
@@ -278,8 +280,8 @@ determines, pays for that work again on every later turn.
 A token audit of a full ten-agent run put numbers on it. Re-read instructions and
 role briefs were 55% of the run's cost, reading files and running scripts 23%, and
 everything reaching outside the machine — every web search, every fetch, every
-market-data call — under half a percent. The fundamentals agent alone ran a tenth
-of the whole budget across 126 turns, 58 of them file operations on a
+market-data call — under half a percent. The fundamentals agent alone ran about a
+tenth of the whole budget across 77 tool calls, much of it spent working through a
 multi-megabyte JSON file. What an agent carries on every turn costs far more than
 what it reaches for once, which is why preflight keeps absorbing work and why
 agents write their files incrementally rather than composing and saving once.

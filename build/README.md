@@ -26,5 +26,9 @@ The report builder takes the rating, target and expected return from `decision.m
 front-matter, never from `report.md`, and keys its exhibits off the two-digit section
 numbers in the report's headings.
 
+Percent rows in `statements.csv` may be whole numbers (60.0) or decimals (0.60).
+The workbook builder detects which and scales whole numbers to decimals so the `0.0%`
+format displays them correctly; see the percent rows section of the exports doc.
+
 Read two things after every PDF build: the sentences the plumbing strip removed, and
 the contrast report. Both are printed for that purpose.

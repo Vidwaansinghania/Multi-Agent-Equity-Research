@@ -8,9 +8,9 @@ appends what no machine can produce: the segment rows, the ratio history and the
 common-size blocks.
 
 Why this exists. A token audit of a full ten-agent run found the fundamentals
-agent spending about a tenth of the whole run's budget across 126 turns, 58 of
-them file operations picking through a multi-megabyte JSON file to rebuild a
-series the data fully determines. Extracting tagged figures is mechanical, so it
+agent spending about a tenth of the whole run's budget across 77 tool calls,
+much of it picking through a multi-megabyte JSON file to rebuild a series the
+data fully determines. Extracting tagged figures is mechanical, so it
 happens once here rather than across dozens of agent turns. The same reasoning
 already moved the filing index and the company facts fetch into preflight.
 

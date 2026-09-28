@@ -156,6 +156,19 @@ def load_statements(path):
         unit = r[2].strip().lower()
         vals = [numeric(x) for x in r[first_year:first_year + len(years)]]
         out.setdefault(stmt, []).append((item, unit, vals))
+
+    # The fundamentals agent writes percent rows as whole numbers (60.0 for
+    # 60%), but the "0.0%" cell format multiplies by 100, so every workbook
+    # showed a 60% margin as 6000.0%. Scale to decimals here. The check is on
+    # the whole file, so a row of small percentages (0.1, 0.8) in a
+    # whole-number file is scaled too, and a file already written as decimals
+    # is left alone.
+    pct = [v for rows_ in out.values() for _, u, vs in rows_ if u == "percent"
+           for v in vs if isinstance(v, (int, float))]
+    if pct and max(abs(v) for v in pct) > 1.5:
+        for stmt, rows_ in out.items():
+            out[stmt] = [(i, u, [v / 100.0 if u == "percent" and isinstance(v, (int, float))
+                                 else v for v in vs]) for i, u, vs in rows_]
     return years, out
 
 

@@ -54,6 +54,16 @@ chart onto section 04, the football field and sensitivity table onto 05, the
 scenario table onto 08 — so a report whose headings drop those numbers builds
 without exhibits.
 
+## Percent rows
+
+Agents usually write the percent rows of `statements.csv` as whole numbers (60.0
+for 60%), while the workbook's `0.0%` cell format multiplies by 100. Left alone, a
+60% margin displays as 6000.0%. `build_workbook.load_statements` checks the whole
+file: if any percent value is larger than 1.5 in absolute terms, every percent row
+is divided by 100; a file written entirely in decimals, like the Acme example, is
+left as it is. Because the check covers the whole file, a row of small percentages
+(0.1, 0.8) inside a whole-number file is scaled with the rest.
+
 ## Two things to read after every build
 
 **The dropped sentences.** `build_report.py` prints every sentence `drop_plumbing`

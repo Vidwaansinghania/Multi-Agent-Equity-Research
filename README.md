@@ -303,7 +303,7 @@ Two full runs were audited line by line, and both found the cost somewhere other
 Cost inside an agent is roughly its context multiplied by its turn count, so the lever is turns rather than sources. On the first audited run, two analysts made sixty and ninety tool calls, most of them finding filing URLs rather than reading filings, and evidence gathering alone was over a third of the bill. Three changes came out of that, and all three are in the process:
 
 - **Shared work happens once, in preflight.** The CIK, the filing index and the company facts file are resolved before any agent starts, and `build/m2facts.py` turns that file into the ten-year statement series. The fundamentals agent checks those rows instead of rebuilding them.
-- **Agents append as they go.** Each writes a section as soon as it finishes one. When three stages of an audited run hit a rate limit, the two holding their work in memory re-ran from zero for about 3.4M tokens, and the one that had been appending resumed.
+- **Agents append as they go.** Each writes a section as soon as it finishes one. When three stages of an audited run hit a rate limit, the two holding their work in memory re-ran from zero for about 1.8M tokens, and the one that had been appending resumed.
 - **Beta is measured in preflight.** One regression up front is cheaper than four agents and a judge arguing about a number none of them measured.
 
 None of it trades away coverage. The analysts still work independently, the debate still runs both sides on the same model, and the judge still reads the evidence.
