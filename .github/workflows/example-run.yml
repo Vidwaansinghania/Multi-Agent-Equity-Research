@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check the decision contract
+        run: python build/validate_decision.py "$RUN"
+
       # Builds go to $OUT so the committed exports in the run folder stay as they are.
       - name: Build workpapers
         run: |

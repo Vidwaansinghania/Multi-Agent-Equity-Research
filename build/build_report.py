@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import m2brand
 import m2config
 import m2md
+import validate_decision
 
 try:
     from reportlab.graphics.shapes import Drawing, Line, Rect, String
@@ -557,6 +558,7 @@ def load_statements(path):
 
 def build(run_dir, brand=None, brand_source="", out_path=None):
     run_dir = os.path.abspath(run_dir)
+    validate_decision.enforce(run_dir)
     report_path = os.path.join(run_dir, "report.md")
     if not os.path.exists(report_path):
         sys.exit("No report.md in %s — stage 6 has not run." % run_dir)
