@@ -15,7 +15,7 @@ export scripts. It does no analysis of its own.
 | 4 · Judgment | 1 judge | Opus | — | `decision.md` |
 | 5 · Risk gate | 1 risk agent | Opus | — | `risk.md` |
 | 6 · Report | 1 report writer | Opus | — | `report.md` |
-| 7 · Deliverables and close | orchestrator only | — | — | `exports/` ×3, `comparison.md`, company index, calls-log row |
+| 7 · Deliverables and close | orchestrator only | — | — | `exports/` ×3, `comparison.md`, company index, calls-log row, coverage row |
 
 Four agents run concurrently in stage 1 and two more in stage 3. Stage 1 takes the
 longest. Nothing here runs against a clock.
@@ -89,17 +89,32 @@ run if it surfaces in stage 3 instead.
       and that agent checks the extracted rows rather than rebuilding them.
       Extracting tagged figures is mechanical and belongs here rather than across
       dozens of agent turns.
+- [ ] Optional: pull a licensed-data snapshot. If you have a terminal or data
+      licence and `licensed_data.snapshot_command` is set in `config.toml`, run it
+      once here and save what it returns under the run's `data/licensed/`:
+      consensus, estimate revisions, the peer set with multiples, top holders.
+      Record in `run.md` that it ran, the vendor and the pull date, and hand the
+      folder path to the market and fundamentals agents, who cite it by vendor
+      and date and spend no connector calls on what it already holds. The peer
+      list also gives the beta cohort below. Agents never open their own session
+      with the vendor. If it is unset or the session is down, write that in
+      `run.md` and carry on with the sources below. Licensed data is rarely
+      redistributable, so keep `data/licensed/` out of anything you publish.
 - [ ] Resolve beta, and record the whole series in `run.md` rather than a single
       figure. Regress the weekly return against the benchmark over one, two, three
       and five years, report the standard error on each, and measure the peer
       cohort the same way. One price history for the name and one per peer covers
-      it. This is not optional detail: on a low-beta name a single five-year point
+      it; save them to the run's `data/` folder so the regression can be re-run.
+      This is not optional detail: on a low-beta name a single five-year point
       estimate is the difference between two ratings, and a run that argues about
       beta without measuring it twice cannot settle the argument.
 - [ ] Confirm the market-data headroom. Record the connector table in `run.md` and
       pass it to the market agent verbatim, because the tools carry an identifier
       and no name. If an earlier run today already spent some of the cap, say what
-      is left.
+      is left. Where another process shares any of these connectors, the ceiling
+      is the cap less what that process spent today: read its call log at
+      `market_data.shared_log`, write the remainder per connector in `run.md`,
+      and give the market agent that remainder as its cap.
 - [ ] Read the scored rows in the calls log for this ticker, up to five, plus the
       three most recent scored rows on any ticker. These go to the judge in stage 4
       labelled as prior lessons, and to nobody else.
@@ -216,7 +231,10 @@ and the holdings snapshot, and answers concretely:
 - The round-trip currency cost. Where the security trades in a currency the account
   does not hold, conversion is charged in both directions at the configured spread.
   On a call with an expected return inside the HOLD band that cost can exceed the
-  entire edge, and the risk agent has to say so when it does.
+  entire edge, and the risk agent has to say so when it does. The judge states any
+  such claim as a ratio of cost to expected return in dollars at the position size,
+  and charges only the conversions actually made where proceeds stay in the
+  trading currency.
 - Entry discipline as a price table.
 
 The risk agent may not change the rating. If it thinks the rating is wrong it says
@@ -260,6 +278,8 @@ Orchestrator only, no agents.
       front-matter, a row in the run table, and the export links.
 - [ ] Add the row to the calls log with status `pending` and the review date twelve
       months out.
+- [ ] Update the company's row in `<research_root>/coverage.md`: the call, the
+      target, the run date, the prior coverage call and whether the ratings differ.
 - [ ] Report back with everything: the rating, the target, how marginal, the
       flipping assumption, the divergence from prior coverage, what the risk gate
       said, and the paths to the three artefacts. Everything in one message, because

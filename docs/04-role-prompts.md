@@ -44,6 +44,7 @@ file does not reach a subagent that never read it.
 | `[RUN_PATH]` | `<research_root>/<Company>/runs/<YYYY-MM-DD>/` |
 | `[CIK]`, `[10K_URL]`, `[8K_URLS]`, `[COMPANYFACTS_PATH]` | preflight |
 | `[PYTHON]` | `paths.python` in `config.toml` |
+| `[SNAPSHOT_PATH]` | the run's `data/licensed/` folder, or omit the line if preflight pulled no snapshot |
 | `[CONNECTOR_1..N]`, `[CALL_CAP]` | `market_data` in `config.toml` |
 | `[PRIOR_COVERAGE]` | `paths.prior_coverage`, or omit the line if unset |
 | `[HOME_CURRENCY]`, `[SPREAD]` | `currency` in `config.toml` |
@@ -72,6 +73,11 @@ what someone else already found:
   Company facts (ten years of tagged XBRL figures): [COMPANYFACTS_PATH], saved
   in the run folder. Read the file directly; do not call the endpoint again.
 If your brief doesn't need filings, ignore this block.
+
+[Where preflight pulled a licensed-data snapshot, append for the market and
+fundamentals agents only: Licensed data saved in preflight: [SNAPSHOT_PATH].
+Read it before reaching for any other source, and cite it by vendor and pull
+date. Do not open your own session with the vendor.]
 
 The standard is institutional. This run produces a report meant to stand beside
 sell-side equity research and a CFA Institute Research Challenge submission, and
@@ -453,6 +459,14 @@ Your output must include:
 - The ownership disclosure, stated as fact from the holdings snapshot in run.md:
   company, share count, share of portfolio, snapshot date. Nothing about bias.
 
+Any claim that currency conversion outweighs the expected return is a ratio, not
+an adjective: the round-trip cost in [HOME_CURRENCY] at the position size, over
+the expected return in [HOME_CURRENCY] at the same size, both figures stated. A
+one-way conversion lands about [SPREAD]% off mid, so a round trip is roughly
+twice that. Where the proceeds stay in the trading currency and are never
+converted back, charge only the conversions actually made, which may be one or
+none, and say which rather than charging the full round trip.
+
 If you set a target different from the valuation agent's weighted target, say so
 and say why. Your front-matter is the only place the rating and target live, and
 everything downstream reads from it.
@@ -479,7 +493,8 @@ Answer concretely:
   purchase in a currency the account does not hold lands about [SPREAD]% off mid
   on the conversion, so the round trip is roughly twice that. Compare the number
   to the expected total return in the decision record and say plainly when the
-  cost eats the edge.
+  cost eats the edge. Where proceeds stay in the trading currency and are never
+  converted back, the round trip is one conversion or none, and you say which.
 - Entry discipline as a price table: the action at each price band.
 
 Where the portfolio has no stated single-name cap, and a call would push a

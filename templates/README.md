@@ -10,6 +10,7 @@ change with the company; the ones here are placeholders.
 | `model.py` | stage 2, by the valuation agent | [docs/05-output-schema.md](../docs/05-output-schema.md) |
 | `decision.md` | stage 4, by the judge | [docs/05-output-schema.md](../docs/05-output-schema.md) |
 | `company-index.md` | stage 7, by the orchestrator | — |
+| `coverage.md` | once, then one row updated per run | [docs/06-run-anatomy.md](../docs/06-run-anatomy.md) |
 | `calls-log.md` | once, then appended per run | [docs/08-calls-log.md](../docs/08-calls-log.md) |
 
 The other run files — the four analyst memos, `valuation.md`, `bull.md`, `bear.md`,

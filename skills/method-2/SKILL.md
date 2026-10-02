@@ -30,8 +30,9 @@ the normal way and, in one sentence, tell them the trigger phrase exists if they
 wanted the fan-out.
 
 If they name several tickers, run them one at a time and say so. Ten agents per
-ticker, and the market-data cap is a daily ceiling shared across every run rather
-than an allowance to spend.
+ticker, and the market-data cap is a daily ceiling shared across every run, and
+with any other process that logs calls on the same connectors, rather than an
+allowance to spend.
 
 ## Then read the process
 
@@ -61,6 +62,13 @@ from `config.toml`.
 | 4 · Judgment | 1 | `models.judge` | — |
 | 5 · Risk gate | 1 | `models.risk` | — |
 | 6 · Report | 1 | `models.report` | — |
+
+In Claude Code, spawn each agent with the Agent tool and `subagent_type:
+general-purpose`. That tool takes model aliases (`sonnet`, `opus`) rather than full
+IDs, so pass the alias that matches the configured model and record the resolved ID
+in `decision.md`, never the alias. If an alias resolves to a model older than the one
+in `config.toml`, say so in `run.md`: a run scored a year later is only interpretable
+if the record names what produced it.
 
 Bull and bear take the same model. If one changes, both change: an asymmetric debate
 is biased in a way the transcript never shows.
@@ -113,8 +121,9 @@ both exist to be read, not skipped.
   (read in Python with pypdf, openpyxl and python-docx, never launched on the user's
   desktop unless they ask), copied from the
   run's `exports/` into `<research_root>/reports/` under the filenames the builder
-  wrote, the company index is updated, and the row is in the calls log with a review
-  date twelve months out.
+  wrote, the company index is updated, the row is in the calls log with a review
+  date twelve months out, and the company's row in `<research_root>/coverage.md` is
+  current.
 
 ## Reporting back
 

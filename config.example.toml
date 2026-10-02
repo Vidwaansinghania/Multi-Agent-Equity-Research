@@ -47,11 +47,23 @@ connectors = [
 # Total calls the market analyst may make across all connectors in one day. A
 # ceiling, not a target. A run that answers its questions in six has done well.
 daily_call_cap = 75
+# If another process spends from any of the connectors above, the file where it
+# logs its calls. Preflight subtracts today's entries from the cap. Leave blank
+# when the connectors belong to this pipeline alone.
+shared_log = ""
 # Free sources that cost no quota, reached before any connector call.
 free_sources = [
   "stockanalysis.com",
   "fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
 ]
+
+[licensed_data]
+# Optional. A command preflight runs once to save consensus, revisions, peers and
+# holders from a terminal or data licence into <run folder>/data/licensed/. The
+# run folder is appended as the last argument. Leave blank if you have none; the
+# run then uses the connectors and free sources above. Check your licence before
+# publishing anything the command saves.
+snapshot_command = ""
 
 [currency]
 # The account's funding currency. Where a security trades in another currency the
