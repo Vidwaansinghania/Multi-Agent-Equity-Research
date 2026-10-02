@@ -24,6 +24,19 @@ One row per call, appended when the run closes.
 Implied return in this table is price to target only. Where dividends matter the
 decision record's total-return figure differs slightly, and the record governs.
 
+Status in this table is `pending` or `withdrawn`; a scored row moves to the scored
+table below. Two rules keep the table
+honest:
+
+- **A refresh is a new row.** A later run on the same ticker that moves the call or
+  the target gets its own row with its own call date and review date. The earlier
+  row is never edited; it is scored on its own terms when its date comes up.
+- **A withdrawn call stays in the log.** A call archived before its review date,
+  because the run turned out to be broken or the thesis was superseded, is marked
+  `withdrawn` with the reason, never deleted. A withdrawn row is not scored and is
+  never fed forward to a judge, but it stays visible, because a log that loses its
+  embarrassing rows overstates the process.
+
 Seed the table with any prior calls from another process on the same tickers. Rows
 from two processes on one ticker are what makes a head-to-head comparison possible,
 and they only work if both were logged at the time rather than reconstructed later.

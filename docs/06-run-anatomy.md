@@ -26,6 +26,7 @@ research/
         ├── risk.md                    # stage 5
         ├── report.md                  # stage 6 — the institutional report
         ├── comparison.md              # stage 7 — against prior coverage
+        ├── data/                      # saved inputs: price histories, filing text, scripts
         └── exports/
             ├── <TICKER>_Method2_Report_<YYYY-MM-DD>.pdf
             ├── <TICKER>_Method2_Workpapers_<YYYY-MM-DD>.docx
@@ -58,6 +59,7 @@ keeping.
 | `risk.md` | risk gate | Position, concentration, correlation, currency drag, entry discipline |
 | `report.md` | report writer | The institutional report. Source for the PDF |
 | `comparison.md` | orchestrator | This run against prior coverage of the same ticker. Written last, and the only point in a run where prior coverage may be opened |
+| `data/` | any stage | Inputs saved so a figure can be re-derived later: the price histories behind the beta regression, filing text an agent quoted, any script that computed a number. Optional, but anything a run computed from a download belongs here rather than in a scratch folder outside the run |
 | `exports/` | orchestrator | The three deliverables. Built by the shared scripts in `build/`; nothing here is written by hand |
 
 A folder missing `decision.md` is an abandoned run. Leave it in place with a line in

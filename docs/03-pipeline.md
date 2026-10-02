@@ -93,7 +93,8 @@ run if it surfaces in stage 3 instead.
       figure. Regress the weekly return against the benchmark over one, two, three
       and five years, report the standard error on each, and measure the peer
       cohort the same way. One price history for the name and one per peer covers
-      it. This is not optional detail: on a low-beta name a single five-year point
+      it; save them to the run's `data/` folder so the regression can be re-run.
+      This is not optional detail: on a low-beta name a single five-year point
       estimate is the difference between two ratings, and a run that argues about
       beta without measuring it twice cannot settle the argument.
 - [ ] Confirm the market-data headroom. Record the connector table in `run.md` and
@@ -216,7 +217,10 @@ and the holdings snapshot, and answers concretely:
 - The round-trip currency cost. Where the security trades in a currency the account
   does not hold, conversion is charged in both directions at the configured spread.
   On a call with an expected return inside the HOLD band that cost can exceed the
-  entire edge, and the risk agent has to say so when it does.
+  entire edge, and the risk agent has to say so when it does. The judge states any
+  such claim as a ratio of cost to expected return in dollars at the position size,
+  and charges only the conversions actually made where proceeds stay in the
+  trading currency.
 - Entry discipline as a price table.
 
 The risk agent may not change the rating. If it thinks the rating is wrong it says

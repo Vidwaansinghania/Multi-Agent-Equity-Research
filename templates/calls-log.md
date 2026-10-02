@@ -13,6 +13,10 @@ the market.
 |---|---|---|---|---|---|---|---|---|---|
 | | | | | | | | | | pending |
 
+Status here is `pending` or `withdrawn`; a scored row moves to the scored table. A refresh that moves the call or the
+target is a new row; the old row is never edited. A withdrawn call keeps its row,
+marked `withdrawn` with the reason, and is not scored.
+
 Implied return here is price to target only. Where dividends matter the decision
 record's total-return figure differs slightly, and the record governs.
 
