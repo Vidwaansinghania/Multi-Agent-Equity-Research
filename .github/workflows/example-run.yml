@@ -1,0 +1,58 @@
+name: Example run
+
+# Builds the three exports of the worked example and checks their shape. The
+# example is the only fixture in the repository, so this is the regression test
+# for every change to the shared builders in build/.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    env:
+      RUN: example/Acme/runs/2026-01-15
+      OUT: ${{ github.workspace }}/ci-exports
+      PYTHONIOENCODING: utf-8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Builds go to $OUT so the committed exports in the run folder stay as they are.
+      - name: Build workpapers
+        run: |
+          mkdir -p "$OUT"
+          python build/build_workpapers.py "$RUN" -o "$OUT/workpapers.docx" | tee "$OUT/workpapers.log"
+
+      - name: Build workbook
+        run: python build/build_workbook.py "$RUN" -o "$OUT/model.xlsx" | tee "$OUT/workbook.log"
+
+      # The log carries the plumbing-strip list and the contrast report; read them on a failure.
+      - name: Build report
+        run: |
+          python build/build_report.py "$RUN" --brand "#1F5C8B" \
+            --brand-source "investor relations stylesheet" \
+            -o "$OUT/report.pdf" | tee "$OUT/report.log"
+
+      - name: Check section, sheet and page counts
+        run: python .github/scripts/check_example_exports.py "$OUT"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: example-exports-py${{ matrix.python }}
+          path: ci-exports/
