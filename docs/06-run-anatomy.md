@@ -7,6 +7,7 @@ edited after it closes.
 
 ```
 research/
+├── coverage.md                        # one row per company, newest call
 ├── reports/                           # copies of every closed run's three exports
 └── <Company>/
     ├── _index.md                      # snapshot, run history, links to newest exports
@@ -87,8 +88,25 @@ run-history table, the divergence from any prior coverage, and links to the newe
 three exports. [templates/company-index.md](../templates/company-index.md) is the
 shape.
 
+It also carries a run-files table per run, linking every stage output in the order
+it was produced. Without it the analyst, debate, risk and report files have no
+inbound link, and a reader can reach them only by browsing the folder. The table
+lives in the index rather than in `run.md` because a closed run is never edited.
+
 The snapshot fields are copied from the newest run's `decision.md` front-matter and
 never computed independently.
+
+## The coverage table
+
+`<research_root>/coverage.md` holds one row per company: the newest call, its
+target, the run date, what any prior coverage called, and whether the two ratings
+differ. It answers the first question the process exists to ask, which is how often
+adversarial pressure changes the call, without opening a single run.
+[templates/coverage.md](../templates/coverage.md) is the shape.
+
+The row is copied from the newest `decision.md` front-matter, like the company index
+snapshot. A query over `<research_root>/*/runs/` can produce the same table; the file
+is for readers without one.
 
 ## Retention
 

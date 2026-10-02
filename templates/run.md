@@ -40,9 +40,15 @@ test against prior coverage.>
 | 8-K 4 | <date, URL> |
 | Company facts | `companyfacts.json` in this folder |
 
+## Licensed data
+
+<Whether a snapshot was pulled, the vendor, the pull date and the folder it was saved
+to. "None" where no licence is configured or the session was down.>
+
 ## Market data budget
 
-<Connectors in use, in order, and the cap. What an earlier run today already spent.
+<Connectors in use, in order, and the cap. What an earlier run today already spent,
+and what any process sharing these connectors spent. The remainder per connector.
 Fill in the calls actually made once stage 1 closes.>
 
 ## Prior lessons read

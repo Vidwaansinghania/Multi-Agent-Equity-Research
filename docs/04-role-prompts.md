@@ -44,6 +44,7 @@ file does not reach a subagent that never read it.
 | `[RUN_PATH]` | `<research_root>/<Company>/runs/<YYYY-MM-DD>/` |
 | `[CIK]`, `[10K_URL]`, `[8K_URLS]`, `[COMPANYFACTS_PATH]` | preflight |
 | `[PYTHON]` | `paths.python` in `config.toml` |
+| `[SNAPSHOT_PATH]` | the run's `data/licensed/` folder, or omit the line if preflight pulled no snapshot |
 | `[CONNECTOR_1..N]`, `[CALL_CAP]` | `market_data` in `config.toml` |
 | `[PRIOR_COVERAGE]` | `paths.prior_coverage`, or omit the line if unset |
 | `[HOME_CURRENCY]`, `[SPREAD]` | `currency` in `config.toml` |
@@ -72,6 +73,11 @@ what someone else already found:
   Company facts (ten years of tagged XBRL figures): [COMPANYFACTS_PATH], saved
   in the run folder. Read the file directly; do not call the endpoint again.
 If your brief doesn't need filings, ignore this block.
+
+[Where preflight pulled a licensed-data snapshot, append for the market and
+fundamentals agents only: Licensed data saved in preflight: [SNAPSHOT_PATH].
+Read it before reaching for any other source, and cite it by vendor and pull
+date. Do not open your own session with the vendor.]
 
 The standard is institutional. This run produces a report meant to stand beside
 sell-side equity research and a CFA Institute Research Challenge submission, and

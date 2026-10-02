@@ -249,7 +249,7 @@ The role decomposition comes from [TradingAgents](https://github.com/TauricResea
 build/          the three builders, the statement extractor and two shared modules
 docs/           the process, start to end
 skills/         the Claude Code skill that carries the trigger phrase
-templates/      empty run.md, decision.md, model.py, statements.csv, calls log
+templates/      empty run.md, decision.md, model.py, statements.csv, calls log, coverage table
 example/Acme/   a complete worked run on an invented company, with built exports
 config.toml     yours, gitignored; copy config.example.toml
 research/       your runs, gitignored: <Company>/runs/<YYYY-MM-DD>/ and reports/
