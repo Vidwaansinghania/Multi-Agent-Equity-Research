@@ -22,6 +22,7 @@ Windows set `PYTHONIOENCODING=utf-8` first.
 | `build_workpapers.py` | Every agent's output in one Word file, in stage order, unedited |
 | `build_workbook.py` | Fourteen sheets from `statements.csv` and `model.py` |
 | `build_report.py` | The report PDF, with exhibits drawn from the model rather than retyped |
+| `score_calls.py` | Scores calls-log rows past their review date against SPY or XIC.TO and tallies `decided_by` across runs. See [docs/08-calls-log.md](../docs/08-calls-log.md) |
 
 The report builder takes the rating, target and expected return from `decision.md`
 front-matter, never from `report.md`, and keys its exhibits off the two-digit section

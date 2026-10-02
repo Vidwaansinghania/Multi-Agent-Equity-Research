@@ -160,7 +160,7 @@ Rules the repository's `CLAUDE.md` holds regardless of what you ask: three ratin
 | `m2facts.py` statement extractor | Working | Ten years out of XBRL company facts in preflight; restated oldest years can differ slightly from the figure first reported |
 | Beta in preflight | Working | One, two, three and five-year regressions with standard errors, peers measured the same way |
 | Reports shelf | Working | Every closed run's exports copied to `research/reports/` |
-| Calls log | Working, manual | Nothing scores automatically; someone runs the review on the due date |
+| Calls log | Working | `build/score_calls.py` scores due calls against their benchmark and tallies `decided_by`; someone still runs it and writes the reflections |
 | Colour-blind checks | Partial | Protanopia and deuteranopia validated; tritanopia raises rather than report an unvalidated number |
 | Display fonts in the PDF | Partial | Reportlab reads TrueType outlines only; OpenType CFF faces fall back to Helvetica and the build says which font it used |
 
