@@ -20,6 +20,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import m2md
+import validate_decision
 
 try:
     from openpyxl import Workbook
@@ -570,6 +571,7 @@ def build(run_dir, out_path=None):
     run_dir = os.path.abspath(run_dir)
     if not os.path.isdir(run_dir):
         sys.exit("No such run folder: %s" % run_dir)
+    validate_decision.enforce(run_dir)
 
     fm, _ = m2md.read_note(os.path.join(run_dir, "decision.md"))
     model = load_model(os.path.join(run_dir, "model.py"))

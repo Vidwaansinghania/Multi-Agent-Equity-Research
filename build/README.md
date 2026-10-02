@@ -18,6 +18,7 @@ Windows set `PYTHONIOENCODING=utf-8` first.
 | `m2md.py` | Markdown to typed blocks, shared by both document builders. Holds `drop_plumbing` and the pattern it matches |
 | `m2brand.py` | Brand palette with contrast checks applied: which colour may carry text, which may carry a chart mark, which is for large fills only |
 | `m2config.py` | Configuration from `config.toml` and the environment |
+| `validate_decision.py` | The decision contract. Every builder calls it first and refuses to write when the rating, its band, the scenarios or `model.py` disagree with `decision.md`. Runs alone as `python build/validate_decision.py "<run folder>"` |
 | `build_workpapers.py` | Every agent's output in one Word file, in stage order, unedited |
 | `build_workbook.py` | Fourteen sheets from `statements.csv` and `model.py` |
 | `build_report.py` | The report PDF, with exhibits drawn from the model rather than retyped |

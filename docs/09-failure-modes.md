@@ -17,6 +17,7 @@
 
 | Symptom | Cause | Fix |
 |---|---|---|
+| `decision.md fails the contract` | The rating, its band, the scenarios or `model.py` disagree with the schema | Read every listed line. Where `model.py` disagrees, patch it from `decision.md`. A rating outside BUY, HOLD, SELL or outside its band is a failed run: never edit `decision.md` to pass |
 | `No report.md in <path>` | Stage 6 has not run | Run stage 6. The workpapers and workbook builders do not need it |
 | `model.py failed to import` | A syntax error, or computation at module level | The contract is plain literals only. Fix the module, do not work around it in the builder |
 | The PDF has no exhibits | The report's headings lost their two-digit section numbers | The builder keys exhibits off `## 04`, `## 05` and `## 08`. Restore the numbers |
@@ -24,7 +25,7 @@
 | A whole paragraph vanished from the PDF | The strip pattern is over-broad | Read the dropped-sentence list the build prints, narrow the pattern, rebuild |
 | The report is set in Helvetica | No display font configured, or the file has CFF outlines reportlab cannot parse | Expected. Configure a TrueType build of the face, or accept the fallback; the build says which font it used |
 | The cover reads `[ANALYST NAME]` | `analyst.name` is unset | Set it in `config.toml` or in `M2_ANALYST` |
-| Workbook sheets are missing | `statements.csv` or `model.py` is absent or partial | The README sheet names what it skipped and why |
+| Workbook sheets are missing | `statements.csv` is absent or partial | The README sheet names what it skipped and why |
 | `UnicodeEncodeError` on a minus sign | Windows console code page | Set `PYTHONIOENCODING=utf-8` before running the builder |
 | SEC EDGAR returns 403 | No User-Agent, or one without a contact address | Fetch with Python and set a header naming a person and an email. Most generic fetch tools cannot do this |
 
