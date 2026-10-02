@@ -3,6 +3,7 @@
     python build/score_calls.py                    # show what is due and score it
     python build/score_calls.py --write            # also move scored rows in the log
     python build/score_calls.py --early ACME       # score a call before its date
+    python build/score_calls.py --early ACME:2026-01-15   # one row of several
     python build/score_calls.py --tally-only       # attribution table, no prices
     python build/score_calls.py --prices p.csv     # prices from a file, no network
 
@@ -19,6 +20,11 @@ the market agent's quota. ``--prices`` reads a CSV of ``symbol,date,adjclose``
 (``close`` optional) instead, for a source of your own or a machine with no
 network. The close on or before each date is used, and a close more than six
 days stale is an error rather than a guess.
+
+Every row is scored on its own terms. A ticker with several rows, because a
+refresh moved the call or the target, has each row scored from its own call date
+to its own review date. A row whose status reads ``withdrawn`` is never scored and
+its run is left out of the tally; it stays in the log as it is.
 
 Without ``--write`` nothing is changed. With it, scored rows leave the open
 table and are appended to the scored table. Reflections are not written here:
@@ -120,10 +126,19 @@ def read_rows(lines, heading):
     return rows
 
 
+def is_withdrawn(row):
+    return row.get("Status", "").strip().lower().startswith("withdrawn")
+
+
+def wants_early(row, early):
+    ticker = row["Ticker"].upper()
+    return ticker in early or "%s:%s" % (ticker, row.get("Call date", "")) in early
+
+
 def due_rows(open_rows, asof, early):
     out = []
     for row in open_rows:
-        if not row.get("Status", "").lower().startswith("pending"):
+        if not row.get("Status", "").strip().lower().startswith("pending"):
             continue
         try:
             review = parse_date(row["Review due"])
@@ -133,7 +148,7 @@ def due_rows(open_rows, asof, early):
             continue
         if review <= asof:
             out.append((row, review, False))
-        elif row["Ticker"].upper() in early:
+        elif wants_early(row, early):
             out.append((row, asof, True))
     return out
 
@@ -304,7 +319,7 @@ def score(row, end, early, run, source, hold_band, asof):
 
 # ------------------------------------------------------------------ tally --
 
-def tally(runs, scored_rows):
+def tally(runs, scored_rows, withdrawn):
     outcomes = {}
     for row in scored_rows:
         alpha = parse_pct(row.get("Alpha", ""))
@@ -315,7 +330,11 @@ def tally(runs, scored_rows):
                 alpha * sign if sign else None, right)
 
     by_stage, unknown = {}, []
+    skipped = 0
     for run in runs:
+        if (run.get("ticker", "").upper(), run.get("run_date")) in withdrawn:
+            skipped += 1
+            continue
         stage = run.get("decided_by", "").strip().lower()
         if stage not in STAGES:
             unknown.append("%s %s: decided_by '%s'"
@@ -364,6 +383,9 @@ def tally(runs, scored_rows):
             if groups[top]["runs"] / total >= 0.75:
                 print("\n  %s carried %d of %d calls. If that group is valuation, "
                       "docs/09 says the debate is decoration." % (top, groups[top]["runs"], total))
+    if skipped:
+        print("  not counted, %d run%s whose call was withdrawn"
+              % (skipped, "" if skipped == 1 else "s"))
     for line in unknown:
         print("  not counted, %s" % line)
 
@@ -387,8 +409,10 @@ def main():
                     help="research root holding the run folders (default: paths.research_root)")
     ap.add_argument("--asof", type=parse_date, default=dt.date.today(),
                     help="score as of this date, YYYY-MM-DD (default: today)")
-    ap.add_argument("--early", nargs="+", default=[], metavar="TICKER",
-                    help="score these pending calls now, before their review date")
+    ap.add_argument("--early", nargs="+", default=[], metavar="TICKER[:DATE]",
+                    help="score these pending calls now, before their review date; "
+                         "TICKER takes every pending row on the ticker, "
+                         "TICKER:YYYY-MM-DD only the row with that call date")
     ap.add_argument("--prices", help="CSV of symbol,date,adjclose[,close] to use "
                                      "instead of fetching")
     ap.add_argument("--hold-band", type=float, default=0.15,
@@ -409,13 +433,19 @@ def main():
                  "fix the header before scoring into it")
     runs = load_runs(args.root)
     scored_before = read_rows(lines, SCORED_HEADING)
+    open_rows = read_rows(lines, OPEN_HEADING)
+    withdrawn = {(r["Ticker"].upper(), r.get("Call date")) for r in open_rows
+                 if is_withdrawn(r)}
     failed = False
 
     if not args.tally_only:
         early = {t.upper() for t in args.early}
-        due = due_rows(read_rows(lines, OPEN_HEADING), args.asof, early)
+        due = due_rows(open_rows, args.asof, early)
         print("%d call%s due for scoring as of %s, from %s"
               % (len(due), "" if len(due) == 1 else "s", args.asof, args.log))
+        if withdrawn:
+            print("  %d withdrawn row%s, not scored and left in place"
+                  % (len(withdrawn), "" if len(withdrawn) == 1 else "s"))
         source = PriceFile(args.prices) if args.prices else Yahoo()
         scored = []
         for row, end, is_early in due:
@@ -445,7 +475,7 @@ def main():
             print("\nnothing written; rerun with --write to move these rows")
         scored_before += [dict(zip(SCORED_COLUMNS, s["cells"])) for s in scored]
 
-    tally(runs, scored_before)
+    tally(runs, scored_before, withdrawn)
     sys.exit(1 if failed else 0)
 
 

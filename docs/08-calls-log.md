@@ -57,6 +57,11 @@ python build/score_calls.py --write          # move the scored rows into the sco
 python build/score_calls.py --early ACME     # score a pending call before its review date
 ```
 
+Each row is scored on its own terms, so a ticker refreshed into a second row has
+each row scored from its own call date; `--early ACME:2026-01-15` picks one of them.
+A row whose status reads `withdrawn` is not scored, stays where it is, and its run is
+left out of the tally below.
+
 It takes the benchmark from the row's Benchmark column, falling back to
 `scoring.benchmark_home` for a listing in the home currency and `scoring.benchmark`
 otherwise. Both legs come from one source, Yahoo's daily adjusted close by default,
