@@ -1,7 +1,9 @@
 """Check a run's decision record against the contract in docs/05-output-schema.md.
 
-Every builder calls enforce() before it writes anything, so a run whose rating,
-band, scenarios or model disagree fails loudly instead of shipping an artefact.
+The workbook and report builders call enforce() before they write anything, so a
+run whose rating, band, scenarios or model disagree fails loudly instead of
+shipping an artefact. The workpapers builder calls warn(): it documents failed and
+partial runs too, and lists the problems instead of refusing.
 Every problem is collected and printed together, so one pass shows the whole fix.
 
     python build/validate_decision.py "<run folder>"
@@ -217,6 +219,16 @@ def enforce(run_dir):
                  "Where model.py disagrees, patch it to match decision.md. Never edit "
                  "decision.md to match the model; see docs/05-output-schema.md."
                  % (run_dir, "\n  - ".join(errors)))
+
+
+def warn(run_dir):
+    """Print every problem without stopping. For the workpapers, which document a
+    failed or partial run as faithfully as a good one."""
+    errors = check(run_dir)
+    if errors:
+        print("warning: decision.md fails the contract:\n  - %s"
+              % "\n  - ".join(errors), file=sys.stderr)
+    return errors
 
 
 def main():

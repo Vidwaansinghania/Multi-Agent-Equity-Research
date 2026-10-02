@@ -306,7 +306,7 @@ def build(run_dir, out_path=None):
     run_dir = os.path.abspath(run_dir)
     if not os.path.isdir(run_dir):
         sys.exit("No such run folder: %s" % run_dir)
-    validate_decision.enforce(run_dir)
+    validate_decision.warn(run_dir)
 
     meta, _ = m2md.read_note(os.path.join(run_dir, "decision.md"))
     if not meta.get("ticker"):

@@ -30,19 +30,21 @@ output path.
 | `m2md.py` | Markdown to typed blocks, shared by both document builders. Also holds `drop_plumbing`, which removes sentences naming local plumbing and records every one it removed |
 | `m2brand.py` | Brand palette with the contrast checks already applied: which colour may carry text, which may carry a chart mark, which is for large fills only |
 | `m2config.py` | Configuration from `config.toml` and the environment |
-| `validate_decision.py` | The decision contract. Every builder calls it first and refuses to write when the rating, its band, the scenarios or `model.py` disagree with `decision.md`. Runs alone as `python build/validate_decision.py "<run folder>"` |
+| `validate_decision.py` | The decision contract. The workbook and report builders call it first and refuse to write when the rating, its band, the scenarios or `model.py` disagree with `decision.md`; the workpapers builder prints the same list and carries on. Runs alone as `python build/validate_decision.py "<run folder>"` |
 | `build_workpapers.py` | Every agent's output in one Word file, in stage order, unedited |
 | `build_workbook.py` | The numbers, from `statements.csv` and `model.py`, one sheet per thing worth checking |
 | `build_report.py` | The report PDF, in the company's colours, with the exhibits drawn from the model rather than retyped |
 
 ## What each builder needs
 
-Every builder checks the decision contract first, so none of them builds before stage 4
-or from a record that breaks [the schema](05-output-schema.md).
+The workbook and report builders check the decision contract first, so neither builds
+before stage 4 or from a record that breaks [the schema](05-output-schema.md). The
+workpapers builder runs the same check and prints the problems without stopping,
+because a failed run's workpapers are the record of why it failed.
 
 | Builder | Requires | Degrades to |
 |---|---|---|
-| Workpapers | a valid `decision.md` and `model.py`, then whatever markdown files exist | a document with a line naming the absent stages |
+| Workpapers | nothing beyond the markdown files that exist | a document with a line naming the absent stages |
 | Workbook | a valid `decision.md` and `model.py`, then `statements.csv` | skips the statement sheets when `statements.csv` is missing and says so on the README sheet |
 | Report | a valid `decision.md` and `model.py`, then `report.md` | exits with a message when `report.md` is absent; drops individual exhibits when `statements.csv` is |
 
