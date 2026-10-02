@@ -49,6 +49,37 @@ earnings call, can be scored early and marked as such.
    judge and should be judged strictly.
 4. Move the row to the scored table and write the reflection.
 
+`build/score_calls.py` does steps 1 to 4 except the reflection:
+
+```bash
+python build/score_calls.py                  # list what is due and score it, change nothing
+python build/score_calls.py --write          # move the scored rows into the scored table
+python build/score_calls.py --early ACME     # score a pending call before its review date
+```
+
+It takes the benchmark from the row's Benchmark column, falling back to
+`scoring.benchmark_home` for a listing in the home currency and `scoring.benchmark`
+otherwise. Both legs come from one source, Yahoo's daily adjusted close by default,
+which carries dividends, so a ratio of two adjusted closes is a total return. The
+source is written into the Scored cell. `--prices` reads a CSV of
+`symbol,date,adjclose` instead. The fetch is the script's own, not a market-data
+connector, so it spends none of the market agent's quota.
+
+A HOLD counts as right when alpha lands within the HOLD band's half-width, ±15
+points, because a HOLD claims the name will track its benchmark rather than that it
+will return between −15% and +15% in absolute terms. `--hold-band` narrows it for a
+stricter reading. The script also warns when the close it found on the call date is
+more than 2% from the logged price at call, which usually means the wrong symbol.
+
+## Is the debate earning its cost
+
+Every run of the script ends with a tally of `decided_by` across every closed run
+under the research root, scored or not, grouped into analysts, valuation and debate.
+For the scored ones it shows how many were directionally right and the mean alpha as
+called: alpha on BUYs, minus alpha on SELLs. `--tally-only` prints the tally without
+fetching a price. Below a dozen runs and a dozen scored calls it says the sample is
+too small, and it is.
+
 ## Reflections
 
 Two to four sentences of plain prose per scored call, no headings and no bullets.
@@ -77,7 +108,6 @@ earned.
 
 ## Known gap
 
-Nothing scores automatically. Someone has to run the review on the due date, and if
-nobody does, the log quietly becomes a list of unfalsified opinions, which is the
-exact failure it exists to prevent. Set a recurring reminder for the month the first
-call comes due.
+The script scores what is due, but only when someone runs it. Run it in the month the
+first call comes due and on a monthly reminder after that, or the log quietly becomes
+a list of unfalsified opinions, which is the exact failure it exists to prevent.

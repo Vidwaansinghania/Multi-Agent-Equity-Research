@@ -16,6 +16,11 @@ Environment overrides:
     M2_FONT_DIR          directory holding the display font files
     M2_DISPLAY_REGULAR   TrueType file for the display face, regular weight
     M2_DISPLAY_BOLD      TrueType file for the display face, bold weight
+    M2_CALLS_LOG         the calls log the scorer reads and appends to
+    M2_BENCHMARK         benchmark for securities not listed in the home currency
+    M2_BENCHMARK_HOME    benchmark for securities listed in the home currency
+
+Relative paths are read against the repository root, where config.toml lives.
 """
 
 import os
@@ -26,8 +31,10 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULTS = {
     "analyst": {"name": "", "email": ""},
     "fonts": {"dir": "", "display_regular": "", "display_bold": ""},
-    "paths": {"python": sys.executable, "research_root": "research"},
-    "scoring": {"benchmark": "SPY"},
+    "paths": {"python": sys.executable, "research_root": "research",
+              "calls_log": "research/calls-log.md"},
+    "scoring": {"benchmark": "SPY", "benchmark_home": "XIC.TO",
+                "review_horizon_months": 12},
     "market_data": {"connectors": [], "daily_call_cap": 75},
 }
 
@@ -39,7 +46,9 @@ ENV = {
     ("fonts", "display_bold"): "M2_DISPLAY_BOLD",
     ("paths", "python"): "M2_PYTHON",
     ("paths", "research_root"): "M2_RESEARCH_ROOT",
+    ("paths", "calls_log"): "M2_CALLS_LOG",
     ("scoring", "benchmark"): "M2_BENCHMARK",
+    ("scoring", "benchmark_home"): "M2_BENCHMARK_HOME",
 }
 
 MISSING = []
