@@ -11,7 +11,7 @@ process is documented in `docs/`, start to end. Read
 ## Running the pipeline
 
 Only on the trigger phrase `run a multi agent equity research report on <TICKER>`.
-The skill in [skills/method-2/SKILL.md](skills/method-2/SKILL.md) carries it and
+The skill in [skills/multi-agent-equity-research/SKILL.md](skills/multi-agent-equity-research/SKILL.md) carries it and
 explains the spawning mechanics. A full run spawns ten agents and spends a daily
 market-data quota, so do not start one because a request sounds like equity research.
 

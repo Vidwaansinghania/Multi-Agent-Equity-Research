@@ -1,6 +1,6 @@
 # 01 · Overview
 
-Method 2 is a second, independent way of producing an equity call. A single
+This pipeline is a second, independent way of producing an equity call. A single
 analyst working alone is the first way, and the two are meant to cover the same
 tickers so they can be compared on the same names. That comparison is the reason
 the process exists in this form.
@@ -86,7 +86,7 @@ Built after reading [TradingAgents](https://github.com/TauricResearch/TradingAge
 (Tauric Research, Apache-2.0). The role decomposition is theirs. Five things are
 deliberately different.
 
-| Their design | Method 2 | Why |
+| Their design | This pipeline | Why |
 |---|---|---|
 | Five-tier rating parsed from prose with a regex that defaults to Hold on failure | Three tiers in a typed field; an invalid value fails the run | A parsing failure should surface rather than manufacture a call no agent made |
 | The judge reads only the debate transcript | The judge reads the analyst files and the valuation memo alongside both attacks | Otherwise the more persuasive agent wins regardless of the evidence |

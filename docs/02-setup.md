@@ -41,7 +41,7 @@ Environment variables override the file. The mapping is at the top of
 The trigger phrase lives in a Claude Code skill:
 
 ```bash
-mkdir -p .claude/skills && cp -r skills/method-2 .claude/skills/
+mkdir -p .claude/skills && cp -r skills/multi-agent-equity-research .claude/skills/
 ```
 
 Claude Code then starts a run when you type `run a multi agent equity research

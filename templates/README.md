@@ -5,13 +5,13 @@ change with the company; the ones here are placeholders.
 
 | File | Written in | Contract |
 |---|---|---|
-| `run.md` | stage 0, by the orchestrator | — |
-| `statements.csv` | stage 1, by the fundamentals agent | [docs/05-output-schema.md](../docs/05-output-schema.md) |
-| `model.py` | stage 2, by the valuation agent | [docs/05-output-schema.md](../docs/05-output-schema.md) |
-| `decision.md` | stage 4, by the judge | [docs/05-output-schema.md](../docs/05-output-schema.md) |
-| `company-index.md` | stage 7, by the orchestrator | — |
-| `coverage.md` | once, then one row updated per run | [docs/06-run-anatomy.md](../docs/06-run-anatomy.md) |
-| `calls-log.md` | once, then appended per run | [docs/08-calls-log.md](../docs/08-calls-log.md) |
+| [run.md](run.md) | stage 0, by the orchestrator | — |
+| [statements.csv](statements.csv) | stage 1, by the fundamentals agent | [docs/05-output-schema.md](../docs/05-output-schema.md) |
+| [model.py](model.py) | stage 2, by the valuation agent | [docs/05-output-schema.md](../docs/05-output-schema.md) |
+| [decision.md](decision.md) | stage 4, by the judge | [docs/05-output-schema.md](../docs/05-output-schema.md) |
+| [company-index.md](company-index.md) | stage 7, by the orchestrator | — |
+| [coverage.md](coverage.md) | once, then one row updated per run | [docs/06-run-anatomy.md](../docs/06-run-anatomy.md) |
+| [calls-log.md](calls-log.md) | once, then appended per run | [docs/08-calls-log.md](../docs/08-calls-log.md) |
 
 The other run files — the four analyst memos, `valuation.md`, `bull.md`, `bear.md`,
 `risk.md`, `report.md` and `comparison.md` — have no template. Their prompts specify

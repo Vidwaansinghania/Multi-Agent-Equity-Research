@@ -27,7 +27,7 @@ PLUMBING = re.compile(
     r"(build_scripts?|build_report|build_workbook|build_workpapers|\.py\b|"
     r"scratchpad|re-?run the (script|build)|rebuild the (export|PDF|DOCX)|"
     r"local python|vault python|\.claude[/\\]|statements\.csv|model\.py|run folder|"
-    r"Method 2/build)",
+    r"(?:Method 2|Multi Agent Equity Research)/build)",
     re.I)
 
 _SENT = re.compile(r"(?<=[.!?])\s+")

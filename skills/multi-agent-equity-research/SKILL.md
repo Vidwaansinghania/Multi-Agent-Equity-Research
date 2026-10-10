@@ -1,13 +1,13 @@
 ---
-name: method-2
+name: multi-agent-equity-research
 description: >
-  Runs the Method 2 multi-agent equity research pipeline — ten specialist agents
+  Runs the multi agent equity research pipeline — ten specialist agents
   (four analysts, valuation, bull, bear, judge, risk gate, report writer) producing
   a typed BUY / HOLD / SELL decision record plus three deliverables: a workpapers
   Word file, a model workbook and an institutional report PDF, all under
   research/<Company>/runs/.
   OPT-IN ONLY, EXACT PHRASE ONLY: use this skill only when the user writes
-  "run a multi agent equity research report on <TICKER>" (or invokes /method-2).
+  "run a multi agent equity research report on <TICKER>" (or invokes /multi-agent-equity-research).
   Never trigger it on any other equity-research request, however similar. A request
   to research a company, value a business, write a thesis, check a rating, or give a
   view on a stock is NOT this skill. A full run spawns ten agents and consumes a
@@ -15,13 +15,13 @@ description: >
   do the work normally and mention that the phrase exists.
 ---
 
-# Method 2 — multi-agent equity research
+# Multi agent equity research
 
 ## Check the trigger before anything else
 
 Proceed only if the user's message contains the phrase `run a multi agent equity
 research report on` followed by a ticker or company name, or they invoked
-`/method-2` directly. Small variations in wording are fine: capitalisation,
+`/multi-agent-equity-research` directly. Small variations in wording are fine: capitalisation,
 "multi-agent" hyphenated, a company name instead of a ticker.
 
 If the request is merely adjacent — "research Costco", "what do you think of NVDA",

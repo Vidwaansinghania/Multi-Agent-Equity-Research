@@ -87,7 +87,7 @@ This needs Claude Code and, optionally, a market-data connector. See [Keys and c
 
 ```bash
 cp config.example.toml config.toml
-mkdir -p .claude/skills && cp -r skills/method-2 .claude/skills/
+mkdir -p .claude/skills && cp -r skills/multi-agent-equity-research .claude/skills/
 ```
 
 Set `analyst.name` and `analyst.email` in `config.toml`. The name goes on the report cover and the email goes into the SEC EDGAR User-Agent, without which EDGAR refuses every request. Then open the folder in Claude Code and type:
@@ -122,7 +122,7 @@ The pipeline starts on one phrase and only that phrase. A full run spawns ten ag
 
 > `run a multi agent equity research report on KO`
 > `Run a multi-agent equity research report on Coca-Cola`
-> `/method-2`
+> `/multi-agent-equity-research`
 
 Capitalisation, a hyphen in "multi-agent" and a company name instead of a ticker are all fine. Several tickers run one at a time.
 
