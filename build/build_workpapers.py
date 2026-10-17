@@ -380,7 +380,7 @@ def build(run_dir, out_path=None):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("run_dir", help="the run folder, e.g. 'Home Depot/runs/2026-08-17'")
+    ap.add_argument("run_dir", help="the run folder, e.g. 'Acme/runs/2026-01-15'")
     ap.add_argument("-o", "--out", default=None, help="output .docx path")
     args = ap.parse_args()
     out, n, missing = build(args.run_dir, args.out)

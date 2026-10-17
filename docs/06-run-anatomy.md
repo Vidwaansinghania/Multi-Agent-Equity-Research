@@ -37,7 +37,7 @@ research/
 `research/` is the default and comes from `paths.research_root`. It is gitignored,
 so real research stays out of the repository unless you decide otherwise.
 
-The folder name is the company's common name, `Home Depot` rather than `HD`, so a
+The folder name is the company's common name, `Coca-Cola` rather than `KO`, so a
 node sorts next to any prior coverage of the same company. The run folder is the
 date alone, because the ticker is already the node.
 

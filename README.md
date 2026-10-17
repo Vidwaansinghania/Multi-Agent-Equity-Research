@@ -172,6 +172,12 @@ The questions the process exists to answer, and what answers each:
 | Which stage does the work? | `decided_by` across a dozen runs. If it always reads `valuation`, the debate is decoration and should be cut |
 | Is either method any good? | Scored rows in the calls log. The first reviews fall due in 2027 |
 
+### Results so far
+
+I ran this process and my own single-analyst reports on the same stocks. The two gave the same rating on five of six companies (Microsoft, Coca-Cola, Visa, Moog and Caterpillar, all HOLD) and split on Alphabet, where the agents called SELL at $268.81 and my report said HOLD at $340. The bull and bear stages raised 56 challenges across the six runs, and the judge accepted 24 of them in whole or part. No call has been scored yet; the first review falls due on 2027-06-20. The write-up is the [Multi Agent Whitepaper](https://vidwaansinghania.github.io/papers/multi-agent-whitepaper.pdf), ten pages.
+
+One difference from my own runs: since 2026-10-17 I rate calls BUY above +8%, HOLD from −8% to +8% and SELL below −8%. The code, docs and worked example in this repository still use ±15%, and have not been updated to match.
+
 ---
 
 ## Under the hood
